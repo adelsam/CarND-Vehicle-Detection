@@ -9,7 +9,7 @@ from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
 from skimage.feature import hog
 from sklearn.model_selection import train_test_split
-from source.train_classifier import bin_spatial, color_hist, get_img_features
+from source.train_classifier import bin_spatial, color_hist, get_hog_features, get_img_features
 
 
 class Finder():
@@ -70,19 +70,19 @@ class Finder():
         nysteps = (nyblocks - nblocks_per_window) // cells_per_step
 
         # Compute individual channel HOG features for the entire image
-        # hog1 = get_hog_features(ch1, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
-        # hog2 = get_hog_features(ch2, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
-        # hog3 = get_hog_features(ch3, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
+        hog1 = get_hog_features(ch1, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
+        hog2 = get_hog_features(ch2, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
+        hog3 = get_hog_features(ch3, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
 
         for xb in range(nxsteps):
             for yb in range(nysteps):
                 ypos = yb * cells_per_step
                 xpos = xb * cells_per_step
                 # Extract HOG for this patch
-                # hog_feat1 = hog1[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
-                # hog_feat2 = hog2[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
-                # hog_feat3 = hog3[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
-                # hog_features = np.hstack((hog_feat1, hog_feat2, hog_feat3))
+                hog_feat1 = hog1[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
+                hog_feat2 = hog2[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
+                hog_feat3 = hog3[ypos:ypos + nblocks_per_window, xpos:xpos + nblocks_per_window].ravel()
+                hog_features = np.hstack((hog_feat1, hog_feat2, hog_feat3))
 
                 xleft = xpos * self.pix_per_cell
                 ytop = ypos * self.pix_per_cell
@@ -93,7 +93,8 @@ class Finder():
                 file_features = get_img_features(subimg, self.color_space, self.spatial_size, self.hist_bins,
                                  self.bins_range, self.hog_channel,
                                  self.orient, self.pix_per_cell, self.cell_per_block,
-                                 spatial_feat=True, hist_feat=True, hog_feat=True)
+                                 spatial_feat=True, hist_feat=True, hog_feat=False)
+                file_features.append(hog_features)
 
                 # Scale features and make a prediction
                 test_features = self.X_scaler.transform(

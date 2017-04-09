@@ -91,7 +91,7 @@ def get_img_features(feature_image, color_space, spatial_size, hist_bins, bins_r
                                             pix_per_cell, cell_per_block, vis=False, feature_vec=True)
         # Append the new feature vector to the features list
         file_features.append(hog_features)
-        return file_features
+    return file_features
 
 
 class Classifier():
