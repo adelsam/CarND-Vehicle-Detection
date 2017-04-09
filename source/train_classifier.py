@@ -65,12 +65,10 @@ def convert_color(img, color_space='YCrCb'):
 
     return cvt
 
-def get_img_features(image, color_space, spatial_size, hist_bins, bins_range, hog_channel,
+def get_img_features(feature_image, color_space, spatial_size, hist_bins, bins_range, hog_channel,
                      orient, pix_per_cell, cell_per_block,
                      spatial_feat=True, hist_feat=True, hog_feat=True):
     file_features = []
-    # Read in each one by one
-    feature_image = image
 
     if spatial_feat == True:
         spatial_features = bin_spatial(feature_image, size=spatial_size)
