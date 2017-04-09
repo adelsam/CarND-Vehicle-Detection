@@ -38,7 +38,7 @@ You're reading it!
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+I trained the classifier by extracting HOG features in `train_classifier.py`.  The extract_features function does this.
 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
@@ -53,11 +53,20 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I mostly used the parameters I discovered in the Search and Classify lesson, and various others.
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained the Linear SVM in `train_classifier`.  I decided to use the HOG features in addition to spatial features, and color histogram features.  This gave the following results:
+Car Images 8792.  Extra Images 8968.
+42.23 Seconds to extract HOG features...
+Using: 9 orientations 8 pixels per cell and 2 cells per block
+Feature vector length: 2580
+8.4 Seconds to train SVC...
+Test Accuracy of SVC =  0.9676
+My SVC predicts:  [ 0.  0.  0.  0.  0.  0.  0.  0.  1.  0.]
+For these 10 labels:  [ 0.  0.  0.  0.  0.  0.  0.  0.  1.  0.]
+0.00161 Seconds to predict 10 labels with SVC
 
 ###Sliding Window Search
 
