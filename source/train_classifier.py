@@ -70,7 +70,6 @@ def get_img_features(image, color_space, spatial_size, hist_bins, bins_range, ho
                      spatial_feat=True, hist_feat=True, hog_feat=True):
     file_features = []
     # Read in each one by one
-    #feature_image = convert_color(image, color_space)
     feature_image = image
 
     if spatial_feat == True:
@@ -115,6 +114,7 @@ class Classifier():
         for file in imgs:
             # Read in each one by one
             image = mpimg.imread(file)
+            image = convert_color(image, color_space)
             file_features = get_img_features(image, color_space, spatial_size, hist_bins, bins_range, hog_channel,
                      orient, pix_per_cell, cell_per_block,
                      spatial_feat, hist_feat, hog_feat)
