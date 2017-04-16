@@ -74,6 +74,7 @@ class Finder():
         hog2 = get_hog_features(ch2, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
         hog3 = get_hog_features(ch3, self.orient, self.pix_per_cell, self.cell_per_block, feature_vec=False)
 
+        box_list = []
         for xb in range(nxsteps):
             for yb in range(nysteps):
                 ypos = yb * cells_per_step
@@ -106,10 +107,12 @@ class Finder():
                     xbox_left = np.int(xleft * scale)
                     ytop_draw = np.int(ytop * scale)
                     win_draw = np.int(window * scale)
+                    box_list.append(((xbox_left, ytop_draw + ystart),
+                                     (xbox_left + win_draw, ytop_draw + win_draw + ystart)))
                     cv2.rectangle(draw_img, (xbox_left, ytop_draw + ystart),
                                   (xbox_left + win_draw, ytop_draw + win_draw + ystart), (0, 0, 255), 6)
 
-        return draw_img
+        return draw_img, box_list
 
     def find(self):
         # Find cars in image using sliding-window technique
