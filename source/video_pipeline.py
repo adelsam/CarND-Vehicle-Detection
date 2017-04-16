@@ -54,25 +54,27 @@ class Pipeline():
         scale = 1.5
         hog_subsample, box_list = self.car_finder.find_cars(image, scale)
 
+        draw_img, heatmap = self.calc_heatmap(box_list, image)
+
+        if self.debug:
+            return self.debug_frame(image, [hog_subsample, heatmap, draw_img])
+        return draw_img
+
+    def calc_heatmap(self, box_list, image):
         heat = np.zeros_like(image[:, :, 0]).astype(np.float)
         # Add heat to each box in box list
         heat = add_heat(heat, box_list)
-
         # Apply threshold to help remove false positives
         heat = apply_threshold(heat, 1)
-
         # Visualize the heatmap when displaying
         heatmap = np.clip(heat, 0, 255)
-
         # Find final boxes from heatmap using label function
         labels = label(heatmap)
         draw_img = draw_labeled_bboxes(np.copy(image), labels)
-
-        return self.debug_frame(image, [hog_subsample, heatmap, draw_img])
+        return draw_img, heatmap
 
     def debug_frame(self, overlay, tiles):
         vis = np.zeros_like(overlay)
-
         if len(tiles) > 0:
             tile_small = cv2.resize(tiles[0], (426, 240))
             vis[:240, :426] = tile_small
