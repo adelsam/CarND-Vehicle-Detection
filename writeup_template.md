@@ -79,7 +79,7 @@ The sliding window search is implemented in the `find_cars` method of `car_finde
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-In the following frame (from the test_video clip), the top-left hand image shows the boxes classified as a `vehicle` by the SVM.  The middle top image shows the heatmap create from those boxes, and the top-right shows the output labeled using `scipy.ndimage.measurements.label()` from a thresholded heatmap.
+In the following frame (from the test_video clip), the top-left hand image shows the boxes classified as a `vehicle` by the SVM.  The middle top image shows the heatmap created from those boxes, and the top-right shows the output labeled using `scipy.ndimage.measurements.label()` from a thresholded heatmap.
 
 ![alt text][image4]
 ---
