@@ -41,14 +41,16 @@ def apply_threshold(heatmap, threshold):
     # Return thresholded map
     return heatmap
 
+FRAMES = 5
+
+
 class Pipeline():
     def __init__(self, input_video, output_video, debug=False):
         self.input_video = input_video
         self.output_video = output_video
         self.debug = debug
         self.car_finder = Finder()
-        # self.left_results = collections.deque(maxlen=5)
-        # self.right_results = collections.deque(maxlen=5)
+        self.car_bboxes = collections.deque(maxlen=FRAMES)
 
     def process_image(self, image):
         scale = 1.5
@@ -63,9 +65,14 @@ class Pipeline():
     def calc_heatmap(self, box_list, image):
         heat = np.zeros_like(image[:, :, 0]).astype(np.float)
         # Add heat to each box in box list
-        heat = add_heat(heat, box_list)
+
+        #Averaging:
+        self.car_bboxes.append(box_list)
+        for frame_box_list in self.car_bboxes:
+            heat = add_heat(heat, frame_box_list)
         # Apply threshold to help remove false positives
-        heat = apply_threshold(heat, 1)
+        heat = apply_threshold(heat, FRAMES - 1)
+
         # Visualize the heatmap when displaying
         heatmap = np.clip(heat, 0, 255)
         # Find final boxes from heatmap using label function
