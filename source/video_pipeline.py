@@ -41,7 +41,7 @@ def apply_threshold(heatmap, threshold):
     # Return thresholded map
     return heatmap
 
-FRAMES = 10
+FRAMES = 8
 
 
 class Pipeline():
@@ -71,7 +71,7 @@ class Pipeline():
         for frame_box_list in self.car_bboxes:
             heat = add_heat(heat, frame_box_list)
         # Apply threshold to help remove false positives
-        heat = apply_threshold(heat, FRAMES - 4)
+        heat = apply_threshold(heat, FRAMES - 2)
 
         # Visualize the heatmap when displaying
         heatmap = np.clip(heat, 0, 255)
