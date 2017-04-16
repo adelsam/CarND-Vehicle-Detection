@@ -57,6 +57,7 @@ I mostly used the parameters I discovered in the Search and Classify lesson, and
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 I trained the Linear SVM in `train_classifier`.  I decided to use the HOG features in addition to spatial features, and color histogram features.  This gave the following results:
+```
 Car Images 8792.  Extra Images 8968.
 42.23 Seconds to extract HOG features...
 Using: 9 orientations 8 pixels per cell and 2 cells per block
@@ -66,6 +67,7 @@ Test Accuracy of SVC =  0.9676
 My SVC predicts:  [ 0.  0.  0.  0.  0.  0.  0.  0.  1.  0.]
 For these 10 labels:  [ 0.  0.  0.  0.  0.  0.  0.  0.  1.  0.]
 0.00161 Seconds to predict 10 labels with SVC
+```
 
 ### Sliding Window Search
 
