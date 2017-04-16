@@ -41,7 +41,7 @@ def apply_threshold(heatmap, threshold):
     # Return thresholded map
     return heatmap
 
-FRAMES = 5
+FRAMES = 10
 
 
 class Pipeline():
@@ -59,7 +59,7 @@ class Pipeline():
         draw_img, heatmap = self.calc_heatmap(box_list, image)
 
         if self.debug:
-            return self.debug_frame(image, [hog_subsample, heatmap, draw_img])
+            return self.debug_frame(draw_img, [hog_subsample, heatmap])
         return draw_img
 
     def calc_heatmap(self, box_list, image):
@@ -71,7 +71,7 @@ class Pipeline():
         for frame_box_list in self.car_bboxes:
             heat = add_heat(heat, frame_box_list)
         # Apply threshold to help remove false positives
-        heat = apply_threshold(heat, FRAMES - 1)
+        heat = apply_threshold(heat, FRAMES - 4)
 
         # Visualize the heatmap when displaying
         heatmap = np.clip(heat, 0, 255)
@@ -108,5 +108,5 @@ class Pipeline():
         print('Wrote Output Video file {}'.format(self.output_video))
 
 if __name__ == '__main__':
-    pipeline = Pipeline('../test_video.mp4', '../output_test_video.mp4', debug=True)
+    pipeline = Pipeline('../project_video.mp4', '../output_project_video.mp4', debug=False)
     pipeline.process()
